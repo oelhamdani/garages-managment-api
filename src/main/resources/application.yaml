@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: garages
+  kafka:
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer  # Serializer for the key (String)
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer  # Serializer for the value (String)
+      retries: 3  # Number of retries in case of failure
+      acks: all  # Wait for the acknowledgment of all replicas before considering the message sent
+      batch-size: 16384  # Message batch size in bytes
+      linger-ms: 1  # Delay to accumulate messages into a batch (milliseconds)
+      buffer-memory: 33554432  # Total memory available to the producer for buffering
+      compression-type: none  # Compression type, options: none, gzip, snappy, lz4
+
+    listener:
+      auto-startup: false
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
